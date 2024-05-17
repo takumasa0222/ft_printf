@@ -1,0 +1,6 @@
+*.Identifier
+*.o
+*.vscode
+*.out
+*.a
+*.dSYM
