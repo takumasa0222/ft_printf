@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:52:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/03 02:10:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/07 22:38:04 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define HEXADECIMAL_S "0123456789abcdef"
 # define HEXADECIMAL_L "0123456789ABCDEF"
 # define DEFAULT_OUTPUT 1
+# define INVALID_SYNTAX -1
 
 typedef struct s_format
 {
