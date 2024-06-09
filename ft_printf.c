@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/07 23:43:42 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/09 23:39:49 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ int	ft_printf(const char *s, ...)
 {
 	static t_format	fmt = {.dot = 0, .flg = NULL, .min_w = 0, .precision = 0};
 	va_list			l;
+	va_list			l_cpy;
 	int				ret;
 	char			*c;
 
 	ret = 0;
-	if (!s)
-		return (ret);
 	c = (char *)s;
 	va_start(l, s);
+	va_copy(l_cpy, l);
+	if (!s || !check_all_validations(*c, l_cpy))
+		return (va_end(l_cpy), va_end(l), ret);
 	while (*c)
 	{
 		if (*c == '%')
 		{
-			if (validate_format(c, &fmt) == INVALID_SYNTAX)
-				return (ret = 0, ret);
-			c = c + validate_format(c, &fmt);
-			ret = ret + print_var(fmt, l, DEFAULT_OUTPUT);
+			c = c + count_format(*c, &fmt);
+			ret = ret + print_var(&fmt, l, DEFAULT_OUTPUT);
 			continue ;
 		}
 		ret = ret + ft_putchar_fd_vp(*c++, DEFAULT_OUTPUT);
@@ -46,31 +46,9 @@ int	ft_printf(const char *s, ...)
 	return (ret);
 }
 
-*/
+/*/
 //this function return format length
-// ssize_t	validate_format(char *c, t_format *fmt)
-// {
-// 	ssize_t	s_len;
 
-// 	s_len = validate_format_sp(*c);
-// 	if (s_len == INVALID_SYNTAX | validate_flg(*c, s_len) == INVALID_SYNTAX \
-// 	| validate_precision() == INVALID_SYNTAX)
-// 		return (INVALID_SYNTAX);
-// 	return (s_len);
-// }
-
-ssize_t	validate_format_sp(char *c)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (c[++i])
-	{
-		if (ft_strchr("cpdiuxX%", c[i]))
-			return (i);
-	}
-	return (INVALID_SYNTAX);
-}
 
 // unsigned long	arg_to_output(char	*c, va_list l)
 // {
@@ -124,6 +102,16 @@ int	main(void)
 	printf("|%#0- +5%|\n");//|%    |$
 	printf("|%-0+ 5%|\n");//|%    |$
 	printf("|%03.30%|\n");//|00%|$
+	printf("|%#+0%|\n");//|%|$
+	printf("|%03.5d|\n",123);//|00123|$
+	printf("|%.5d|\n",123);//|00123|$
+	printf("|%6.5d|\n",123);//| 00123|$
+	printf("|%6.7d|\n",123);//|0000123|$
+	printf("|%-6.7d|\n",123);//|0000123|$
+	printf("|%-9.7d|\n",123);//|0000123  |$
+	printf("|%-9.d|\n",123);//|123      |$
+	printf("|%09.d|\n",123);//|      123|$
+	// printf("|%03.30%|\n");//|00%|$
 	// printf("%q");//incomplete format specifier [-Werror,-Wformat]
 	// printf("%");//incomplete format specifier [-Werror,-Wformat]
 	// printf("%d%s\n",123);
@@ -145,13 +133,13 @@ int	main(void)
 	printf("test%p\n",NULL);//0x0
 
 
-	char *s = "";
-	printf("testvalidate_format%ld\n",validate_format_sp(s));
-	char *c;
-	c = "a";
+	// char *s = "";
+	// printf("testvalidate_format%ld\n",validate_format_sp(s));
+	// char *c;
+	// c = "a";
 
 	// printf("test%d\n",c);
-	printf("test%p\n",c);
+	// printf("test%p\n",c);
 	// ft_printf("test%d\n",123);
 	// ft_printf("test%d\n",c);
 	// ft_printf("test%i\n",UINT_MAX);
