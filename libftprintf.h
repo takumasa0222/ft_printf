@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:52:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/09 23:34:35 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:36:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define HEXADECIMAL_L "0123456789ABCDEF"
 # define DEFAULT_OUTPUT 1
 # define INVLD_SYNTX 0
-# define NO_FLG 1
+# define NO_FLG 32
 # define HASH_FLG 1
 # define MN_FLG 2
 # define ZR_FLG 4
@@ -30,11 +30,10 @@
 
 typedef struct s_format
 {
-	char	*fmt_sp;
-	char	*flg;
-	int		min_w;
-	int		dot;
-	int		precision;
+	unsigned int	flg;
+	int				min_w;
+	int				dot;
+	int				precision;
 }	t_format;
 
 unsigned long	ft_putchar_fd_vp(int i, int fd);

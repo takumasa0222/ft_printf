@@ -6,26 +6,21 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:22:44 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/09 23:37:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:51:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 #include "libft/libft.h"
 
-int	check_all_validations(char *c, va_list *args)
-{
-	size_t	s_len;
 
+int	check_all_format(char *c)
+{
 	while (*c)
 	{
 		if (c == '%')
 		{
-			s_len = validate_format_sp(*c);
-			if (s_len == INVLD_SYNTX \
-			|| !validate_flg(*c, s_len, fmt) \
-			|| !validate_min_fld() \
-			|| !validate_precision())
+			if (!valid_format_check(*c))
 				return (INVLD_SYNTX);
 		}
 		c++;
@@ -33,71 +28,92 @@ int	check_all_validations(char *c, va_list *args)
 	return (1);
 }
 
-//check if format specifier exist
-size_t	validate_format_sp(char *c)
+
+/*
+Check if the format is correct.
+if the format is invalid, this function returns INVLD_SYTX
+if the format is valid, this function returns format character position
+*/
+size_t	valid_format_check(char *c)
 {
 	size_t	i;
+	int		dot_flg;
 
-	i = 0;
-	while (c[++i])
-	{
-		if (ft_strchr("cpdiuxX%", c[i]))
-			return (i);
-	}
-	return (INVLD_SYNTX);
+	dot_flg = 0;
+	i = 1;
+	while (ft_strchr(" +-#0", c[i]))
+		i++;
+	while (ft_isdigit(c[i]))
+		i++;
+	if ((ft_strchr(".", c[i])))
+		i++;
+	while (ft_isdigit(c[i]))
+		i++;
+	if (ft_strchr("cpdiuxX%%", c[i]))
+		return (i);
+	else
+		return (INVLD_SYNTX);
 }
 
-unsigned int	validate_flg(char *c, size_t s_len, t_format *fmt)
+unsigned int	validate_flg(char *c, size_t s_len, unsigned int flags)
 {
-	size_t			i;
-	int				flg_cnt;
-	unsigned int	flags;
-
-	i = 0;
-	if (s_len < 2)
-		return (NO_FLG);
-	flg_cnt = 0;
-	flags = 0;
-	while (i < s_len && ft_strchr("-+ 0#", c[i]) && c[i])
-		flags = set_flg(c[i], flags);
-	if (ft_strchr("%", fmt->fmt_sp))
-		return (flags);
-	if (flags & MN_FLG && flags & ZR_FLG || flags & PLS_FLG && flags & SP_FLG)
-		return (INVLD_SYNTX);
-	if (flags & ZR_FLG && ft_strchr("csp", fmt->fmt_sp))
-		return (INVLD_SYNTX);
-	if (flags & PLS_FLG && !ft_strchr("di", fmt->fmt_sp) \
-		|| flags & SP_FLG && !ft_strchr("di", fmt->fmt_sp))
-		return (INVLD_SYNTX);
-	if (flags & HASH_FLG && !ft_strchr("xX", fmt->fmt_sp))
-		return (INVLD_SYNTX);
+	if (flags & MN_FLG && flags & ZR_FLG)
+		flags &= ~ZR_FLG;
+	if (flags & PLS_FLG && flags & SP_FLG)
+		flags &= ~SP_FLG;
+	if (flags & ZR_FLG && ft_strchr("csp%", c[s_len]))
+		flags &= ~ZR_FLG;
+	if (flags & PLS_FLG && !ft_strchr("di%", c[s_len]))
+		flags &= ~PLS_FLG;
+	if (flags & SP_FLG && !ft_strchr("di%", c[s_len]))
+		flags &= ~SP_FLG;
+	if (flags & HASH_FLG && !ft_strchr("xX%", c[s_len]))
+		flags &= ~HASH_FLG;
 	return (flags);
 }
 
-unsigned int	set_flg(char c, unsigned int flags)
-{
-	if (c == ' ')
-		flags |= SP_FLG;
-	else if (c == '+')
-		flags |= PLS_FLG;
-	else if (c == '-')
-		flags |= MN_FLG;
-	else if (c == '0')
-		flags |= ZR_FLG;
-	else if (c == '#')
-		flags |= HASH_FLG;
-	return (flags);
-}
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	unsigned int flags;
 
-// 	flags = 0;
-// 	flags = set_flg(' ',flags);
-// 	flags = set_flg('x',flags);
-// 	flags = set_flg('+',flags);
-// 	flags = set_flg('0',flags);
-// 	flags = set_flg('a',flags);
-// 	printf("%u", flags);
-// }
+
+#include <stdio.h>
+int	main(void)
+{
+	// unsigned int	flags;
+
+	// flags = 0;
+	// flags = set_flg(' ',flags);
+	// flags = set_flg('x',flags);
+	// flags = set_flg('+',flags);
+	// flags = set_flg('0',flags);
+	// flags = set_flg('a',flags);
+	//	printf("%u", flags);
+
+	// check validate_format_sp(char *c)
+	// printf("%ld\n",validate_format_sp("%d"));
+	// printf("%ld\n",validate_format_sp("%a"));
+	// printf("%ld\n",validate_format_sp("%03.5d"));
+	// printf("%ld\n",validate_format_sp("%0d"));
+	// printf("%ld\n",validate_format_sp("%+4d"));
+	// printf("%ld\n",validate_format_sp("%+5.d"));
+	// printf("%ld\n",validate_format_sp("%+.d"));
+	// printf("%ld\n",validate_format_sp("%+.4d"));
+	// printf("%ld\n",validate_format_sp("%7.9d"));
+	// printf("%ld\n",validate_format_sp("%7d"));
+	// printf("%ld\n",validate_format_sp("%8.d"));
+	// printf("%ld\n",validate_format_sp("%.3d"));
+	// printf("%ld\n",validate_format_sp("%%"));
+	// printf("%ld\n",validate_format_sp("%+5.00001d"));
+
+	//invalid case
+	printf("%ld\n",validate_format_sp("%e.d"));
+	printf("%ld\n",validate_format_sp("% +-012345.12345q"));
+	printf("%ld\n",validate_format_sp("%0\2003.5d"));
+	printf("%ld\n",validate_format_sp("%00000.00-0d"));
+	printf("%ld\n",validate_format_sp("%+4..d"));
+	printf("%ld\n",validate_format_sp("%+.d"));
+	printf("%ld\n",validate_format_sp("%+.4d"));
+	printf("%ld\n",validate_format_sp("%7.9d"));
+	printf("%ld\n",validate_format_sp("%7d"));
+	printf("%ld\n",validate_format_sp("%8.d"));
+	printf("%ld\n",validate_format_sp("%.3d"));
+	printf("%ld\n",validate_format_sp("%.d"));
+}

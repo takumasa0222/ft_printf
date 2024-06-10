@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/09 23:39:49 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:57:45 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,26 @@
 // unsigned long	arg_to_output(char	*c, va_list l);
 // int				validatenextc(char *c);
 
-/*
+///*
 int	ft_printf(const char *s, ...)
 {
-	static t_format	fmt = {.dot = 0, .flg = NULL, .min_w = 0, .precision = 0};
+	static t_format	fmt = {.dot = 0, .flg = 0, .min_w = 0, .precision = 0};
 	va_list			l;
-	va_list			l_cpy;
 	int				ret;
 	char			*c;
 
 	ret = 0;
 	c = (char *)s;
 	va_start(l, s);
-	va_copy(l_cpy, l);
-	if (!s || !check_all_validations(*c, l_cpy))
-		return (va_end(l_cpy), va_end(l), ret);
+	if (!s || !check_all_format(*c))
+		return (va_end(l), ret);
 	while (*c)
 	{
 		if (*c == '%')
 		{
-			c = c + count_format(*c, &fmt);
+			c = c + set_format(*c, &fmt, valid_format_check(*c));
 			ret = ret + print_var(&fmt, l, DEFAULT_OUTPUT);
+			reset_t_format(&fmt);
 			continue ;
 		}
 		ret = ret + ft_putchar_fd_vp(*c++, DEFAULT_OUTPUT);
@@ -46,6 +45,13 @@ int	ft_printf(const char *s, ...)
 	return (ret);
 }
 
+void	reset_t_format(t_format *fmt)
+{
+	fmt->dot = 0;
+	fmt->flg = 0;
+	fmt->min_w = 0;
+	fmt->precision = 0;
+}
 /*/
 //this function return format length
 
@@ -111,8 +117,20 @@ int	main(void)
 	printf("|%-9.7d|\n",123);//|0000123  |$
 	printf("|%-9.d|\n",123);//|123      |$
 	printf("|%09.d|\n",123);//|      123|$
+	printf("|%+9.d|\n",123);//|     +123|$
+	printf("|% 9.d|\n",123);//|      123|
+	printf("|%#9.3x|\n",123);//|    0x07b|
+	printf("|%#9.5x|\n",123);//|  0x0007b|
+	printf("|%#9.3x|\n",12300);//|   0x300c|
+	printf("|%0..d|\n",123);//warning: invalid conversion specifier '.'
+	printf("|%#9.1x|\n",12300);//|   0x300c|
+	printf("|%#2.7x|\n",12300);//|0x000300c|
+	printf("|%2.3d|\n",12300);//|12300|
+	printf("|%2.3i|\n",12300);//|12300|
+	printf("|%2.3u|\n",12300);//|12300|
+	printf("|%2.00003u|\n",12300);//|12300|
 	// printf("|%03.30%|\n");//|00%|$
-	// printf("%q");//incomplete format specifier [-Werror,-Wformat]
+	// printf("%s");//incomplete format specifier [-Werror,-Wformat]
 	// printf("%");//incomplete format specifier [-Werror,-Wformat]
 	// printf("%d%s\n",123);
 	// printf("%d%s%x\n",123);
@@ -145,4 +163,11 @@ int	main(void)
 	// ft_printf("test%i\n",UINT_MAX);
 	// ft_printf("test%i\n",UINT_MAX + 1);
 	// ft_printf("test%s\n",NULL);
+	const char *format = "%-03d\n";
+	const char *format2 = "%07..d\n";
+	int d = 4;
+
+	printf(format, d);
+	printf(format2, d);
+
 }
