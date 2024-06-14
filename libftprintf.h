@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:52:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/11 03:36:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/15 04:13:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,17 @@ typedef struct s_format
 	int				min_w;
 	int				dot;
 	int				precision;
+	size_t			len;
 }	t_format;
 
 unsigned long	ft_putchar_fd_vp(int i, int fd);
 unsigned long	ft_putstr_fd_vp(char *s, int fd);
-unsigned long	ft_putnbr_fd_vp(long l, int fd);
 void			ft_putnbr_base(int nbr, char *base);
+
+unsigned long	ft_print_d_i(t_format *fmt, int i, int fd);
+unsigned long	ft_print_u(t_format *fmt, unsigned int i, int fd);
+size_t			ft_print_precision_d_i(t_format *fmt, int i, size_t num_len, int fd);
+size_t			ft_putnbr_fd_vp(int i, int fd);
 
 
 #endif

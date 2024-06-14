@@ -6,22 +6,98 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:41:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/05/20 23:22:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/15 04:29:04 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 #include "libft/libft.h"
 
-unsigned long	ft_putnbr_fd_vp(long l, int fd)
+unsigned long	ft_print_d_i(t_format *fmt, int i, int fd)
 {
-	char	*str;
+	size_t	n_len;
+	size_t	ret;
 
-	ft_putnbr_fd(l, fd);
-	str = ft_itoa(l);
-	if (!str)
-		return (0);
-	return (ft_strlen(str));
+	n_len = ft_num_len_without_sign(i);
+	ret = 0;
+	if (fmt->flg & MN_FLG || fmt->min_w <= (n_len + sign_len(i, fmt)))
+	{
+		ret = ft_print_precision_d_i(fmt, i, n_len, fd);
+		while (ret < fmt->min_w)
+			ret = ret + ft_putchar_fd_vp(' ', fd);
+	}
+	else
+	{
+		while (ret + n_len + sign_len(i, fmt) < fmt->min_w \
+		&& fmt->precision < fmt->min_w)
+		{
+			if (fmt->flg & ZR_FLG)
+				ret = ret + ft_putchar_fd_vp('0', fd);
+			else
+				ret = ret + ft_putchar_fd_vp(' ', fd);
+		}
+		ret = ft_print_precision_d_i(fmt, i, n_len, fd);
+	}
+	return (ret);
+}
+
+unsigned long	ft_print_u(t_format *fmt, unsigned int i, int fd)
+{
+	size_t	n_len;
+	size_t	ret;
+
+	n_len = ft_num_len_without_sign(i);
+	ret = 0;
+	if (fmt->flg & MN_FLG || fmt->min_w <= (n_len + sign_len(i, fmt)))
+	{
+		ret = ft_print_precision_d_i(fmt, i, n_len, fd);
+		while (ret < fmt->min_w)
+			ret = ret + ft_putchar_fd_vp(' ', fd);
+	}
+	else
+	{
+		while (ret + n_len + sign_len(i, fmt) < fmt->min_w \
+		&& fmt->precision < fmt->min_w)
+		{
+			if (fmt->flg & ZR_FLG)
+				ret = ret + ft_putchar_fd_vp('0', fd);
+			else
+				ret = ret + ft_putchar_fd_vp(' ', fd);
+		}
+		ret = ft_print_precision_d_i(fmt, i, n_len, fd);
+	}
+	return (ret);
+}
+
+size_t	ft_print_precision_d_i(t_format *fmt, int i, size_t num_len, int fd)
+{
+	size_t	ret;
+
+	ret = 0;
+	if (fmt->flg & PLS_FLG || fmt->flg & SP_FLG || i < 0)
+		ret = ft_putchar_fd_vp(get_sign(i, fmt), fd);
+	while (ret + num_len < fmt->precision)
+		ret = ret + ft_putchar_fd_vp('0', fd);
+	ft_putnbr_fd_vp(i, fd);
+	ret = ret + num_len;
+	return (ret);
+}
+
+size_t	ft_putnbr_fd_vp(int i, int fd)
+{
+
+	long	cpy_n;
+
+	cpy_n = i;
+	if (cpy_n < 0)
+		cpy_n = cpy_n * -1;
+	if (cpy_n > 9)
+	{
+		ft_putnbr_fd(cpy_n / 10, fd);
+		cpy_n = cpy_n % 10;
+	}
+	if (cpy_n < 10)
+		ft_putchar_fd((cpy_n + 48), fd);
 }
 
 unsigned long	ft_putunbr_fd_vp(unsigned int i, int fd)

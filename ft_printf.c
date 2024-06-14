@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/11 03:57:45 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/15 04:08:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 // unsigned long	arg_to_output(char	*c, va_list l);
 // int				validatenextc(char *c);
 
-///*
+/*
 int	ft_printf(const char *s, ...)
 {
 	static t_format	fmt = {.dot = 0, .flg = 0, .min_w = 0, .precision = 0};
 	va_list			l;
 	int				ret;
 	char			*c;
+	size_t			fmt_len;
 
 	ret = 0;
 	c = (char *)s;
@@ -34,9 +35,10 @@ int	ft_printf(const char *s, ...)
 	{
 		if (*c == '%')
 		{
-			c = c + set_format(*c, &fmt, valid_format_check(*c));
-			ret = ret + print_var(&fmt, l, DEFAULT_OUTPUT);
+			fmt_len = set_format(*c, &fmt, valid_format_check(*c));
+			ret = ret + print_var(c, l, &fmt, DEFAULT_OUTPUT);
 			reset_t_format(&fmt);
+			c = c + fmt_len;
 			continue ;
 		}
 		ret = ret + ft_putchar_fd_vp(*c++, DEFAULT_OUTPUT);
@@ -45,39 +47,40 @@ int	ft_printf(const char *s, ...)
 	return (ret);
 }
 
-void	reset_t_format(t_format *fmt)
+static void	reset_t_format(t_format *fmt)
 {
 	fmt->dot = 0;
 	fmt->flg = 0;
 	fmt->min_w = 0;
 	fmt->precision = 0;
+	fmt->len = 0;
 }
-/*/
-//this function return format length
 
-
-// unsigned long	arg_to_output(char	*c, va_list l)
-// {
-// 	unsigned long	i;
-// 	//printf ("59 gyuome%c\n",*c);
-// 	if (*c == 'c')
-// 		return (ft_putchar_fd_vp(va_arg(l, int), 1));
-// 	else if (*c == 's')
-// 		return (ft_putstr_fd_vp(va_arg(l, char *), 1));
-// 	else if (*c == 'p')
-// 		return (ft_putnbr_fd_16base_vp(va_arg(l, int), 1));
-// 	else if (*c == 'd' || *c == 'i')
-// 		return (ft_putnbr_fd_vp(va_arg(l, int), 1));
-// 	else if (*c == 'u')
-// 		return (ft_putunbr_fd_vp(va_arg(l, unsigned int), 1));
-// 	else if (*c == 'x')
-// 			return (0);
-// 	else if (*c == 'X')
-// 			return (0);
-// 	else if (*c == '%')
-// 		return (ft_putchar_fd_vp('%', 1));
-// 	return (i);
-// }
+/*
+this function is controler.
+Decide which printer function should be called.
+return value is number of printed charcter.
+*/
+size_t	print_var(char *c, va_list l, t_format *fmt, int fd)
+{
+	if (c[fmt->len] == 'c')
+		return (ft_putchar_fd_vp(fmt, va_arg(l, int), fd));
+	else if (c[fmt->len] == 's')
+		return (ft_putstr_fd_vp(fmt, va_arg(l, char *), fd));
+	else if (c[fmt->len] == 'p')
+		return (ft_putnbr_fd_16base_vp(fmt, va_arg(l, int), fd));
+	else if (c[fmt->len] == 'd' || *c == 'i')
+		return (ft_print_d_i(fmt, va_arg(l, int), fd));
+	else if (c[fmt->len] == 'u')
+		return (ft_print_u(fmt, va_arg(l, unsigned int), fd));
+	else if (c[fmt->len] == 'x')
+			return (0);
+	else if (c[fmt->len] == 'X')
+			return (0);
+	else if (c[fmt->len] == '%')
+		return (ft_putchar_fd_vp('%', 1));
+	return (i);
+}
 
 //*/
 #include <stdio.h>
@@ -128,7 +131,35 @@ int	main(void)
 	printf("|%2.3d|\n",12300);//|12300|
 	printf("|%2.3i|\n",12300);//|12300|
 	printf("|%2.3u|\n",12300);//|12300|
-	printf("|%2.00003u|\n",12300);//|12300|
+	printf("|%2.00003u|\n",12300);//|12300
+	// test for priority
+	printf("|%0.5u|\n",123);//|00123|
+	printf("|%0.5d|\n",123);//|00123|
+	printf("|%09.d|\n",123);//|      123|
+	printf("|%-9.d|\n",123);//|123      |
+	printf("|%-.5d|\n",123);//|00123|
+	printf("|% .5d|\n",123);//| 00123|
+	printf("|%+.5d|\n",123);//|+00123|
+	printf("|%04.5d|\n",123);//|00123|
+	printf("|%-4.5d|\n",123);//|00123|
+	printf("|%-7.5d|\n",123);//|00123  |
+	printf("|%07.5d|\n",123);//|  00123|
+	printf("|% .5d|\n",-123);//|-00123|
+	printf("|%+.5d|\n",-123);//|-00123|
+	printf("|%.5d|\n",-123);//|-00123|
+	printf("|%.2d|\n",-123);//|-123|
+	printf("|%.1d|\n",123);//|123|
+	printf("|%.1x|\n",123);//|7b|
+	printf("|%.5X|\n",123);//|0007B|
+	printf("|%#.5X|\n",123);//|0X0007B|
+	printf("|%#.5X|\n",-123);//|0XFFFFFF85|
+	printf("|%#3.2X|\n",123);//|0X7B|
+	printf("|%#5.2X|\n",123);//| 0X7B|
+	printf("|%-10.8d|\n",123);//|00000123  |
+	printf("|%-+10.8d|\n",123);//|+00000123 |
+	printf("|%-+8.8d|\n",123);//|+00000123|
+	printf("|%-8.4d|\n",-123);//|-0123   |
+	printf("|%+-8.4d|\n",123);//|+0123   |
 	// printf("|%03.30%|\n");//|00%|$
 	// printf("%s");//incomplete format specifier [-Werror,-Wformat]
 	// printf("%");//incomplete format specifier [-Werror,-Wformat]
@@ -149,6 +180,7 @@ int	main(void)
 	printf("%u\n", UINT_MAX);
 	printf("%i\n", UINT_MAX + 1);
 	printf("test%p\n",NULL);//0x0
+
 
 
 	// char *s = "";

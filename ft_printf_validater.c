@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:22:44 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/11 03:51:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/15 01:31:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	check_all_format(char *c)
 	return (1);
 }
 
-
 /*
 Check if the format is correct.
 if the format is invalid, this function returns INVLD_SYTX
@@ -37,9 +36,7 @@ if the format is valid, this function returns format character position
 size_t	valid_format_check(char *c)
 {
 	size_t	i;
-	int		dot_flg;
 
-	dot_flg = 0;
 	i = 1;
 	while (ft_strchr(" +-#0", c[i]))
 		i++;
@@ -55,6 +52,11 @@ size_t	valid_format_check(char *c)
 		return (INVLD_SYNTX);
 }
 
+/*
+This function checks valid flag.
+If the flag is not valid, turn off the flag.
+Return value is flags.
+*/
 unsigned int	validate_flg(char *c, size_t s_len, unsigned int flags)
 {
 	if (flags & MN_FLG && flags & ZR_FLG)

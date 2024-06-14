@@ -6,13 +6,17 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 03:42:01 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/11 04:46:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/15 01:33:08 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 #include "libft/libft.h"
 
+/*
+this function set the valid format to 2nd argument.
+return value is the string length of format.
+*/
 size_t	set_format(char *c, t_format *fmt, size_t s_len)
 {
 	size_t	i;
@@ -25,8 +29,12 @@ size_t	set_format(char *c, t_format *fmt, size_t s_len)
 	fmt->flg = validate_flg(c[0], s_len, fmt->flg);
 	fmt->min_w = ft_printf_atoi(c[i], &i);
 	if ((ft_strchr(".", c[i])))
+	{
 		fmt->dot = 1;
+		fmt->flg &= ~ZR_FLG;
+	}
 	fmt->precision = ft_printf_atoi(c[i], &i);
+	fmt->len = s_len;
 	return (s_len);
 }
 
@@ -45,6 +53,11 @@ unsigned int	*set_flg(char c, unsigned int flags)
 	return (flags);
 }
 
+/*
+this function convert char to integer.
+Second argument is iterator and this function changes the iterator value.
+This is because set_format is not using while loop.
+*/
 int	ft_printf_atoi(char	*c, size_t *i)
 {
 	size_t	j;
