@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 03:42:01 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/15 01:33:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 04:41:30 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,24 @@ return value is the string length of format.
 size_t	set_format(char *c, t_format *fmt, size_t s_len)
 {
 	size_t	i;
-	int		dot_flg;
 
-	dot_flg = 0;
 	i = 1;
 	while (ft_strchr(" +-#0", c[i]))
 		fmt->flg = set_flg(c[i++], fmt->flg);
-	fmt->flg = validate_flg(c[0], s_len, fmt->flg);
-	fmt->min_w = ft_printf_atoi(c[i], &i);
+	fmt->flg = validate_flg(c, s_len, fmt->flg);
+	fmt->min_w = ft_printf_atoi(&c[i], &i);
 	if ((ft_strchr(".", c[i])))
 	{
 		fmt->dot = 1;
 		fmt->flg &= ~ZR_FLG;
+		i++;
 	}
-	fmt->precision = ft_printf_atoi(c[i], &i);
+	fmt->precision = ft_printf_atoi(&c[i], &i);
 	fmt->len = s_len;
 	return (s_len);
 }
 
-unsigned int	*set_flg(char c, unsigned int flags)
+unsigned int	set_flg(char c, unsigned int flags)
 {
 	if (c == ' ')
 		flags |= SP_FLG;

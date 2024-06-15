@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:22:44 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/15 01:31:15 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 04:07:46 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	check_all_format(char *c)
 {
 	while (*c)
 	{
-		if (c == '%')
+		if (*c == '%')
 		{
-			if (!valid_format_check(*c))
+			if (!valid_format_check(c))
 				return (INVLD_SYNTX);
 		}
 		c++;
@@ -63,19 +63,19 @@ unsigned int	validate_flg(char *c, size_t s_len, unsigned int flags)
 		flags &= ~ZR_FLG;
 	if (flags & PLS_FLG && flags & SP_FLG)
 		flags &= ~SP_FLG;
-	if (flags & ZR_FLG && ft_strchr("csp%", c[s_len]))
+	if (flags & ZR_FLG && ft_strchr("csp%%", c[s_len]))
 		flags &= ~ZR_FLG;
-	if (flags & PLS_FLG && !ft_strchr("di%", c[s_len]))
+	if (flags & PLS_FLG && !ft_strchr("di%%", c[s_len]))
 		flags &= ~PLS_FLG;
-	if (flags & SP_FLG && !ft_strchr("di%", c[s_len]))
+	if (flags & SP_FLG && !ft_strchr("di%%", c[s_len]))
 		flags &= ~SP_FLG;
-	if (flags & HASH_FLG && !ft_strchr("xX%", c[s_len]))
+	if (flags & HASH_FLG && !ft_strchr("xX%%", c[s_len]))
 		flags &= ~HASH_FLG;
 	return (flags);
 }
 
 
-
+/*
 #include <stdio.h>
 int	main(void)
 {
@@ -119,3 +119,4 @@ int	main(void)
 	printf("%ld\n",validate_format_sp("%.3d"));
 	printf("%ld\n",validate_format_sp("%.d"));
 }
+*/

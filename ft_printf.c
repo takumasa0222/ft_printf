@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/15 04:08:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 05:27:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // unsigned long	arg_to_output(char	*c, va_list l);
 // int				validatenextc(char *c);
 
-/*
+
 int	ft_printf(const char *s, ...)
 {
 	static t_format	fmt = {.dot = 0, .flg = 0, .min_w = 0, .precision = 0};
@@ -29,16 +29,16 @@ int	ft_printf(const char *s, ...)
 	ret = 0;
 	c = (char *)s;
 	va_start(l, s);
-	if (!s || !check_all_format(*c))
+	if (!s || !check_all_format(c))
 		return (va_end(l), ret);
 	while (*c)
 	{
 		if (*c == '%')
 		{
-			fmt_len = set_format(*c, &fmt, valid_format_check(*c));
+			fmt_len = set_format(c, &fmt, valid_format_check(c));
 			ret = ret + print_var(c, l, &fmt, DEFAULT_OUTPUT);
 			reset_t_format(&fmt);
-			c = c + fmt_len;
+			c = c + fmt_len + 1;
 			continue ;
 		}
 		ret = ret + ft_putchar_fd_vp(*c++, DEFAULT_OUTPUT);
@@ -47,7 +47,7 @@ int	ft_printf(const char *s, ...)
 	return (ret);
 }
 
-static void	reset_t_format(t_format *fmt)
+void	reset_t_format(t_format *fmt)
 {
 	fmt->dot = 0;
 	fmt->flg = 0;
@@ -63,23 +63,26 @@ return value is number of printed charcter.
 */
 size_t	print_var(char *c, va_list l, t_format *fmt, int fd)
 {
+	size_t	ret;
+
+	ret = 0;
 	if (c[fmt->len] == 'c')
-		return (ft_putchar_fd_vp(fmt, va_arg(l, int), fd));
-	else if (c[fmt->len] == 's')
-		return (ft_putstr_fd_vp(fmt, va_arg(l, char *), fd));
-	else if (c[fmt->len] == 'p')
-		return (ft_putnbr_fd_16base_vp(fmt, va_arg(l, int), fd));
+		return (ft_putchar_fd_vp('q', va_arg(l, int)));
+	// else if (c[fmt->len] == 's')
+	// 	return (ft_putstr_fd_vp(fmt, va_arg(l, char *), fd));
+	// else if (c[fmt->len] == 'p')
+	// 	return (ft_putnbr_fd_16base_vp(fmt, va_arg(l, int), fd));
 	else if (c[fmt->len] == 'd' || *c == 'i')
 		return (ft_print_d_i(fmt, va_arg(l, int), fd));
 	else if (c[fmt->len] == 'u')
 		return (ft_print_u(fmt, va_arg(l, unsigned int), fd));
-	else if (c[fmt->len] == 'x')
-			return (0);
-	else if (c[fmt->len] == 'X')
-			return (0);
-	else if (c[fmt->len] == '%')
-		return (ft_putchar_fd_vp('%', 1));
-	return (i);
+	// else if (c[fmt->len] == 'x')
+	// 		return (0);
+	// else if (c[fmt->len] == 'X')
+	// 		return (0);
+	// else if (c[fmt->len] == '%')
+	// 	return (ft_putchar_fd_vp('%', 1));
+	return (ret);
 }
 
 //*/
@@ -87,6 +90,7 @@ size_t	print_var(char *c, va_list l, t_format *fmt, int fd)
 #include <limits.h>
 int	main(void)
 {
+	/*
 	printf("%12s\n",NULL);//      (null)$
 	printf("%03%\n");//00%$
 	// flag conbination pattern
@@ -180,8 +184,22 @@ int	main(void)
 	printf("%u\n", UINT_MAX);
 	printf("%i\n", UINT_MAX + 1);
 	printf("test%p\n",NULL);//0x0
-
-
+*/
+	// ft_printf("|%d|\n",456);
+	// ft_printf("|% d|\n",456);
+	// ft_printf("|%+d|\n",456);
+	// ft_printf("|%-5d|\n",456);
+	ft_printf("|%07d|\n",456);
+	ft_printf("|%.5d|\n",456);
+	ft_printf("|%8.5d|\n",456);
+	ft_printf("|%-8.5d|\n",456);
+	ft_printf("|%+-8.5d|\n",456);
+	ft_printf("|%+8.5d|\n",456);
+	printf("|%+8.5d|\n",456);
+	ft_printf("|%0 8d|\n",456);
+	printf("|%0 8d|\n",456);
+	ft_printf("|%+-8.5d|\n",456);
+	ft_printf("|%d|\n",456);
 
 	// char *s = "";
 	// printf("testvalidate_format%ld\n",validate_format_sp(s));
@@ -195,11 +213,11 @@ int	main(void)
 	// ft_printf("test%i\n",UINT_MAX);
 	// ft_printf("test%i\n",UINT_MAX + 1);
 	// ft_printf("test%s\n",NULL);
-	const char *format = "%-03d\n";
-	const char *format2 = "%07..d\n";
-	int d = 4;
+	// const char *format = "%-03d\n";
+	// const char *format2 = "%07..d\n";
+	// int d = 4;
 
-	printf(format, d);
-	printf(format2, d);
+	// printf(format, d);
+	// printf(format2, d);
 
 }
