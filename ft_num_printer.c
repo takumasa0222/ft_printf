@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:41:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 05:30:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:11:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,41 +18,74 @@ size_t	ft_print_d_i(t_format *fmt, int i, int fd)
 	size_t	n_len;
 	size_t	ret;
 
-	n_len = ft_abs_num_len(i);
+	n_len = ft_abs_num_len(i, fmt);
 	ret = 0;
-	if (fmt->flg & MN_FLG || fmt->min_w <= (n_len + sign_len((long)i, fmt)))
+	if (fmt->flg & MN_FLG)
 	{
-		ret = ft_print_precision_d_i_u(fmt, (long) i, n_len, fd);
-		while (ret <= fmt->min_w)
-			ret = ret + ft_putchar_fd_vp(' ', fd);
+		ret = ret + ft_print_sign(fmt, (long) i, fd);
+		ret = ret + ft_print_prec_d_i_u(fmt, (long) i, n_len, fd);
+		ret = ft_print_mnw_d_i_u(fmt, ret, i, fd);
+	}
+	else if (fmt->flg & ZR_FLG)
+	{
+		ret = ret + ft_print_sign(fmt, (long) i, fd);
+		ret = ft_print_mnw_d_i_u(fmt, ret, i, fd);
+		ret = ret + ft_print_prec_d_i_u(fmt, (long) i, n_len, fd);
 	}
 	else
 	{
-		while (ret + n_len + sign_len(i, fmt) <= fmt->min_w \
-		&& ret < fmt->min_w - fmt->precision)
-		{
-			if (fmt->flg & ZR_FLG)
-				ret = ret + ft_putchar_fd_vp('0', fd);
-			else
-				ret = ret + ft_putchar_fd_vp(' ', fd);
-		}
-		ret = ret + ft_print_precision_d_i_u(fmt, (long) i, n_len, fd);
+		ret = ft_print_mnw_d_i_u(fmt, ret, i, fd);
+		ret = ret + ft_print_sign(fmt, (long) i, fd);
+		ret = ret + ft_print_prec_d_i_u(fmt, (long) i, n_len, fd);
 	}
 	return (ret);
 }
-#include <stdio.h>
-size_t	ft_print_precision_d_i_u(t_format *fmt, long i, size_t num_len, int fd)
+
+size_t	ft_print_prec_d_i_u(t_format *fmt, long i, size_t n_len, int fd)
+{
+	size_t	ret;
+
+	ret = 0;
+	while (ret + n_len < fmt->precision)
+		ret = ret + ft_putchar_fd_vp('0', fd);
+	if (!i && fmt->dot)
+		return (ret);
+	ft_putnbr_fd_vp(i, fd);
+	ret = ret + n_len;
+	return (ret);
+}
+
+size_t	ft_print_mnw_d_i_u(t_format *fmt, size_t i, long val, int fd)
+{
+	size_t	len;
+
+	len = ft_abs_num_len(val, fmt);
+	if (fmt->flg & MN_FLG)
+	{
+		while (i < fmt->min_w)
+			i = i + ft_putchar_fd_vp(' ', fd);
+	}
+	else if (fmt->flg & ZR_FLG)
+	{
+		while (i + len < fmt->min_w && i < fmt->min_w - fmt->precision)
+			i = i + ft_putchar_fd_vp('0', fd);
+	}
+	else
+	{
+		while (i + len + sign_len(val, fmt) < fmt->min_w \
+			&& i < fmt->min_w - fmt->precision - sign_len(val, fmt))
+			i = i + ft_putchar_fd_vp(' ', fd);
+	}
+	return (i);
+}
+
+size_t	ft_print_sign(t_format *fmt, long i, int fd)
 {
 	size_t	ret;
 
 	ret = 0;
 	if (fmt->flg & PLS_FLG || fmt->flg & SP_FLG || i < 0)
 		ret = ft_putchar_fd_vp(get_sign(i, fmt), fd);
-	//printf("%d\n",fmt->precision);
-	while (ret + num_len <= fmt->precision)
-		ret = ret + ft_putchar_fd_vp('0', fd);
-	ft_putnbr_fd_vp(i, fd);
-	ret = ret + num_len;
 	return (ret);
 }
 
@@ -61,25 +94,25 @@ size_t	ft_print_u(t_format *fmt, unsigned int i, int fd)
 	size_t	n_len;
 	size_t	ret;
 
-	n_len = ft_abs_num_len(i);
+	n_len = ft_abs_num_len(i, fmt);
 	ret = 0;
-	if (fmt->flg & MN_FLG || fmt->min_w <= (n_len + sign_len((long)i, fmt)))
+	if (fmt->flg & MN_FLG)
 	{
-		ret = ft_print_precision_d_i_u(fmt, (long) i, n_len, fd);
-		while (ret < fmt->min_w)
-			ret = ret + ft_putchar_fd_vp(' ', fd);
+		ret = ret + ft_print_sign(fmt, (long) i, fd);
+		ret = ret + ft_print_prec_d_i_u(fmt, (long) i, n_len, fd);
+		ret = ft_print_mnw_d_i_u(fmt, ret, i, fd);
+	}
+	else if (fmt->flg & ZR_FLG)
+	{
+		ret = ret + ft_print_sign(fmt, (long) i, fd);
+		ret = ft_print_mnw_d_i_u(fmt, ret, i, fd);
+		ret = ret + ft_print_prec_d_i_u(fmt, (long) i, n_len, fd);
 	}
 	else
 	{
-		while (ret + n_len + sign_len(i, fmt) < fmt->min_w \
-		&& fmt->precision < fmt->min_w)
-		{
-			if (fmt->flg & ZR_FLG)
-				ret = ret + ft_putchar_fd_vp('0', fd);
-			else
-				ret = ret + ft_putchar_fd_vp(' ', fd);
-		}
-		ret = ret + ft_print_precision_d_i_u(fmt, (long) i, n_len, fd);
+		ret = ft_print_mnw_d_i_u(fmt, ret, i, fd);
+		ret = ret + ft_print_sign(fmt, (long) i, fd);
+		ret = ret + ft_print_prec_d_i_u(fmt, (long) i, n_len, fd);
 	}
 	return (ret);
 }

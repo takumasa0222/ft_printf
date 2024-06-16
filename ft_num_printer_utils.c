@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:31:16 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 04:26:50 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:50:18 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	get_sign(long i, t_format *fmt)
 		return ('\0');
 }
 
-size_t	ft_putnbr_fd_vp(long i, int fd)
+void	ft_putnbr_fd_vp(long i, int fd)
 {
 	long	cpy_n;
 
@@ -50,19 +50,19 @@ size_t	ft_putnbr_fd_vp(long i, int fd)
 		ft_putchar_fd((cpy_n + 48), fd);
 }
 
-size_t	ft_abs_num_len (long i)
+size_t	ft_abs_num_len(long i, t_format *fmt)
 {
 	size_t	ret;
 
 	ret = 1;
 	if (i < 0)
 		i = i * -1;
-	if (i == 0)
-		return (ret);
+	if (i == 0 && fmt->dot)
+		return (0);
 	while (i >= 10)
 	{
 		i = i / 10;
 		ret++;
 	}
+	return (ret);
 }
-

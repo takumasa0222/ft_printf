@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:22:44 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 04:07:46 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:59:19 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ size_t	valid_format_check(char *c)
 		i++;
 	while (ft_isdigit(c[i]))
 		i++;
-	if (ft_strchr("cpdiuxX%%", c[i]))
+	if (ft_strchr("cspdiuxX%%", c[i]))
 		return (i);
 	else
 		return (INVLD_SYNTX);

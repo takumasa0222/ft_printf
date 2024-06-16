@@ -1,35 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printer.c                                       :+:      :+:    :+:   */
+/*   ft_chr_printer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 21:52:28 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/05/20 19:41:40 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:19:37 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 #include "libft/libft.h"
 
-
-unsigned long	ft_putchar_fd_vp(int i, int fd)
+size_t	ft_print_c(t_format *fmt, int i, int fd)
 {
-	ft_putchar_fd(i, fd);
-	return (1);
-}
+	size_t	ret;
 
-unsigned long	ft_putstr_fd_vp(char *s, int fd)
-{
-	if (s)
+	ret = 0;
+	if (fmt->flg & MN_FLG)
 	{
-		ft_putstr_fd(s, fd);
-		return (ft_strlen(s));
+		ret = ret + ft_putchar_fd_vp(i, fd);
+		ret = ret + ft_print_mnw_c(fmt, fd);
 	}
 	else
 	{
-		ft_putstr_fd("(null)", fd);
-		return (ft_strlen("(null)"));
+		ret = ret + ft_print_mnw_c(fmt, fd);
+		ret = ret + ft_putchar_fd_vp(i, fd);
 	}
+	return (ret);
+}
+
+size_t	ft_print_mnw_c(t_format *fmt, int fd)
+{
+	size_t	i;
+
+	i = 0;
+	if (fmt->flg & ZR_FLG)
+	{
+		while (i + 1 < fmt->min_w)
+			i = i + ft_putchar_fd_vp('0', fd);
+	}
+	else
+	{
+		while (i + 1 < fmt->min_w)
+			i = i + ft_putchar_fd_vp(' ', fd);
+	}
+	return (i);
+}
+
+size_t	ft_putchar_fd_vp(int i, int fd)
+{
+	ft_putchar_fd(i, fd);
+	return (1);
 }

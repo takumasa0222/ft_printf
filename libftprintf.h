@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:52:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 04:27:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:42:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define HEXADECIMAL_S "0123456789abcdef"
-# define HEXADECIMAL_L "0123456789ABCDEF"
+# define HXDCML_S "0123456789abcdef"
+# define HXDCML_L "0123456789ABCDEF"
 # define DEFAULT_OUTPUT 1
 # define INVLD_SYNTX 0
 # define NO_FLG 32
@@ -48,27 +48,39 @@ unsigned int	set_flg(char c, unsigned int flags);
 int				ft_printf_atoi(char	*c, size_t *i);
 
 //ft_printf_validater.c
-int				check_all_format(char *c);
 size_t			valid_format_check(char *c);
+int				check_all_format(char *c);
 unsigned int	validate_flg(char *c, size_t s_len, unsigned int flags);
 
 //ft_num_printer.c
 size_t			ft_print_d_i(t_format *fmt, int i, int fd);
-size_t			ft_print_precision_d_i_u(t_format *fmt, long i, size_t num_len, int fd);
+size_t			ft_print_prec_d_i_u(t_format *fmt, long i, size_t nlen, int fd);
+size_t			ft_print_sign(t_format *fmt, long i, int fd);
 size_t			ft_print_u(t_format *fmt, unsigned int i, int fd);
 
 //ft_num_printer_utils.c
 size_t			sign_len(long i, t_format *fmt);
 char			get_sign(long i, t_format *fmt);
-size_t			ft_putnbr_fd_vp(long i, int fd);
-size_t			ft_abs_num_len (long i);
+void			ft_putnbr_fd_vp(long i, int fd);
+size_t			ft_abs_num_len(long i, t_format *fmt);
+size_t			ft_print_mnw_d_i_u(t_format *fmt, size_t i, long val, int fd);
 
-unsigned long	ft_putchar_fd_vp(int i, int fd);
-unsigned long	ft_putstr_fd_vp(char *s, int fd);
-void			ft_putnbr_base(int nbr, char *base);
+//ft_chr_printer.c
+size_t			ft_putchar_fd_vp(int i, int fd);
+size_t			ft_print_c(t_format *fmt, int i, int fd);
+size_t			ft_print_mnw_c(t_format *fmt, int fd);
 
-unsigned long	ft_print_u(t_format *fmt, unsigned int i, int fd);
+//ft_pointer_printer.c
+size_t	ft_print_pointer(t_format *fmt, uintptr_t i, int fd);
+size_t	ft_putptr_prec_fd(t_format *fmt, uintptr_t i, size_t cnt, int fd);
+size_t	ft_print_mnw_p(t_format *fmt, size_t cnt, int fd);
+size_t			ft_putnbr_base(uintptr_t nbr, char *base, int fd);
+size_t			ft_putnbr_base_cnt(uintptr_t nbr, char *base);
 
-
-
+//ft_str_printer.c
+size_t			ft_print_str(t_format *fmt, char *str, int fd);
+size_t			ft_print_str_fd(t_format *fmt, char *s, int fd);
+size_t			ft_putstr_null_fd(t_format *fmt, char *nul_str, int fd);
+size_t			ft_putstr_mnw_str(t_format *fmt, char *s, int fd);
+size_t			ft_putstr_fd_vp(char *s, int fd);
 #endif
