@@ -6,11 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 03:42:01 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 04:41:30 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 #include "libft/libft.h"
 
 /*

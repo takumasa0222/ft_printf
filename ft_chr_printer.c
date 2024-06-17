@@ -6,12 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 21:52:28 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 20:19:37 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:52:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include "libft/libft.h"
+#include "ft_printf.h"
 
 size_t	ft_print_c(t_format *fmt, int i, int fd)
 {
@@ -38,12 +37,12 @@ size_t	ft_print_mnw_c(t_format *fmt, int fd)
 	i = 0;
 	if (fmt->flg & ZR_FLG)
 	{
-		while (i + 1 < fmt->min_w)
+		while (i + 1 < (size_t)fmt->min_w)
 			i = i + ft_putchar_fd_vp('0', fd);
 	}
 	else
 	{
-		while (i + 1 < fmt->min_w)
+		while (i + 1 < (size_t)fmt->min_w)
 			i = i + ft_putchar_fd_vp(' ', fd);
 	}
 	return (i);

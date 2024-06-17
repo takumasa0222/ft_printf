@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:52:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 23:42:52 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:18:08 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include <stdarg.h>
-# include <stdlib.h>
 # include <unistd.h>
+# include "./libft/libft.h"
 
 # define HXDCML_S "0123456789abcdef"
 # define HXDCML_L "0123456789ABCDEF"
@@ -71,9 +71,9 @@ size_t			ft_print_c(t_format *fmt, int i, int fd);
 size_t			ft_print_mnw_c(t_format *fmt, int fd);
 
 //ft_pointer_printer.c
-size_t	ft_print_pointer(t_format *fmt, uintptr_t i, int fd);
-size_t	ft_putptr_prec_fd(t_format *fmt, uintptr_t i, size_t cnt, int fd);
-size_t	ft_print_mnw_p(t_format *fmt, size_t cnt, int fd);
+size_t			ft_print_pointer(t_format *fmt, uintptr_t i, int fd);
+size_t			ft_ptr_prec_fd(t_format *fmt, uintptr_t i, size_t cnt, int fd);
+size_t			ft_print_mnw_p(t_format *fmt, size_t cnt, int fd);
 size_t			ft_putnbr_base(uintptr_t nbr, char *base, int fd);
 size_t			ft_putnbr_base_cnt(uintptr_t nbr, char *base);
 
@@ -83,4 +83,10 @@ size_t			ft_print_str_fd(t_format *fmt, char *s, int fd);
 size_t			ft_putstr_null_fd(t_format *fmt, char *nul_str, int fd);
 size_t			ft_putstr_mnw_str(t_format *fmt, char *s, int fd);
 size_t			ft_putstr_fd_vp(char *s, int fd);
+
+size_t			ft_print_hex(t_format *fmt, uintptr_t i, char *hex, int fd);
+size_t			ft_hex_prec_fd(t_format *fmt, uintptr_t i, size_t cnt, int fd);
+size_t			ft_hexcap_prec_fd(t_format *fmt, uintptr_t i, size_t c, int fd);
+size_t			ft_print_hex_cap(t_format *fmt, uintptr_t i, char *hex, int fd);
+size_t			ft_hex_mnw_p(t_format *fmt, size_t cnt, int fd);
 #endif

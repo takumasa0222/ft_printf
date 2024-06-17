@@ -6,12 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:31:16 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 18:50:18 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include "libft/libft.h"
+#include "ft_printf.h"
 
 size_t	sign_len(long i, t_format *fmt)
 {

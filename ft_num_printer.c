@@ -6,12 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:41:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 19:11:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include "libft/libft.h"
+#include "ft_printf.h"
 
 size_t	ft_print_d_i(t_format *fmt, int i, int fd)
 {
@@ -46,7 +45,7 @@ size_t	ft_print_prec_d_i_u(t_format *fmt, long i, size_t n_len, int fd)
 	size_t	ret;
 
 	ret = 0;
-	while (ret + n_len < fmt->precision)
+	while (ret + n_len < (size_t)fmt->precision)
 		ret = ret + ft_putchar_fd_vp('0', fd);
 	if (!i && fmt->dot)
 		return (ret);
@@ -62,17 +61,18 @@ size_t	ft_print_mnw_d_i_u(t_format *fmt, size_t i, long val, int fd)
 	len = ft_abs_num_len(val, fmt);
 	if (fmt->flg & MN_FLG)
 	{
-		while (i < fmt->min_w)
+		while (i < (size_t)fmt->min_w)
 			i = i + ft_putchar_fd_vp(' ', fd);
 	}
 	else if (fmt->flg & ZR_FLG)
 	{
-		while (i + len < fmt->min_w && i < fmt->min_w - fmt->precision)
+		while (i + len < (size_t)fmt->min_w && \
+		(int)i < fmt->min_w - fmt->precision)
 			i = i + ft_putchar_fd_vp('0', fd);
 	}
 	else
 	{
-		while (i + len + sign_len(val, fmt) < fmt->min_w \
+		while (i + len + sign_len(val, fmt) < (size_t)fmt->min_w \
 			&& i < fmt->min_w - fmt->precision - sign_len(val, fmt))
 			i = i + ft_putchar_fd_vp(' ', fd);
 	}
@@ -116,41 +116,3 @@ size_t	ft_print_u(t_format *fmt, unsigned int i, int fd)
 	}
 	return (ret);
 }
-
-// unsigned long	ft_putnbr_fd_16base_vp(long l, int fd)
-// {
-// 	unsigned int	cpy_n;
-// 	char			*str;
-
-// 	cpy_n = l;
-
-// 	str = ft_itoa(l);
-// 	if (!str)
-// 		return (0);
-// 	return (ft_strlen(str));
-// }
-
-// void	ft_putnbr_base(int nbr, char *base)
-// {
-// 	char	printint;
-// 	int		len;
-
-
-// 	len = ft_strlen(HEXADECIMAL_S);
-// 	printint = '0';
-// 	if (nbr < 0)
-// 	{
-// 		ft_putchar_fd('-', 1);
-// 		nbr = nbr * -1;
-// 		ft_putnbr_base(nbr, HEXADECIMAL_S);
-// 	}
-// 	else if (nbr > len - 1)
-// 	{
-// 		ft_putnbr_base(nbr / len, HEXADECIMAL_S);
-// 		ft_putnbr_base(nbr % len, HEXADECIMAL_S);
-// 	}
-// 	else
-// 	{
-// 		ft_putchar_fd(HEXADECIMAL_S[nbr], 1);
-// 	}
-// }
