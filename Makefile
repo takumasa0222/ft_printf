@@ -6,26 +6,30 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 21:12:16 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/06/18 02:55:38 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/06/18 04:49:50 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -fsanitize=address
-#CFLAGS		=
+SRCS	= ./libft/ft_isdigit.c ./libft/ft_strlen.c ./libft/ft_strchr.c ./libft/ft_atoi.c \
+./libft/ft_putchar_fd.c ./libft/ft_putnbr_fd.c ./libft/ft_putstr_fd.c \
+ft_chr_printer.c ft_hex_printer.c ft_num_printer.c ft_num_printer_utils.c ft_pointer_printer.c ft_str_printer.c\
+ft_printf_utils.c ft_printf_validater.c ft_printf.c
+
+OBJS	= $(SRCS:.c=.o)
+BONUS	= ft_chr_printer_bonus.c ft_hex_printer_bonus.c ft_num_printer_bonus.c ft_num_printer_utils_bonus.c ft_pointer_printer_bonus.c ft_str_printer_bonus.c\
+ft_printf_utils_bonus.c ft_printf_validater_bonus.c ft_printf_bonus.c
 LIBFT	= ./libft/libft.a
-SRCS	= ${wildcard *.c}
-OBJS	= ${SRCS:.c=.o}
+BOBJS		= $(BONUS:%.c=%.o)
 NAME		= libftprintf.a
 AR		= ar
 
 .PHONY: all clean fclean re norm
 all: $(NAME)
 
-${NAME}: ${OBJS}
-	make -C libft
-	cp ${LIBFT} ${NAME}
-	${AR} rcs $@ ${OBJS}
+$(NAME): $(OBJS)
+	$(AR) rcs $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -35,7 +39,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
 
 norm :
 	norminette -R CheckForbiddenSourceHeader ${SRCS}
