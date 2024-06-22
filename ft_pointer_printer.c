@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 22:01:40 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/23 00:40:25 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 size_t	ft_print_pointer(t_format *fmt, uintptr_t i, int fd)
 {
 	size_t	ret;
-
+	
+	if (!i)
+		return (ft_print_str(fmt, "(nil)", fd));
 	ret = 0;
 	if (fmt->flg & MN_FLG)
 	{

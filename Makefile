@@ -6,15 +6,13 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 21:12:16 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/06/18 04:49:50 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/06/22 16:41:00 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=address
-SRCS	= ./libft/ft_isdigit.c ./libft/ft_strlen.c ./libft/ft_strchr.c ./libft/ft_atoi.c \
-./libft/ft_putchar_fd.c ./libft/ft_putnbr_fd.c ./libft/ft_putstr_fd.c \
-ft_chr_printer.c ft_hex_printer.c ft_num_printer.c ft_num_printer_utils.c ft_pointer_printer.c ft_str_printer.c\
+CFLAGS		= -Wall -Wextra -Werror
+SRCS	= ft_chr_printer.c ft_hex_printer.c ft_num_printer.c ft_num_printer_utils.c ft_pointer_printer.c ft_str_printer.c\
 ft_printf_utils.c ft_printf_validater.c ft_printf.c
 
 OBJS	= $(SRCS:.c=.o)
@@ -26,9 +24,12 @@ NAME		= libftprintf.a
 AR		= ar
 
 .PHONY: all clean fclean re norm
+.SILENT: all
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	@make -C libft
+	@cp $(LIBFT) $(NAME)
 	$(AR) rcs $@ $^
 
 %.o: %.c
@@ -36,6 +37,7 @@ $(NAME): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(BOBJS)
+	@make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
