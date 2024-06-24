@@ -589,6 +589,22 @@ void test_boundary_cases(void) {
 		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
 		printf("\033[0m");
 	}
+
+	std_ret = printf("invalid case1: %%%%%\n");
+	ft_ret = ft_printf("invalid case1: %%%%%\n");
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+	std_ret = printf("invalid case2: %qabos\n");
+	ft_ret = ft_printf("invalid case2: %qabos\n");
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
 }
 
 verify_printf()
@@ -613,10 +629,10 @@ test_percent()
 }
 
 int main() {
-	// test_printf();
-	// test_boundary_cases();
+	test_printf();
+	test_boundary_cases();
 	// verify_printf();
 	
-	test_percent();
+//	test_percent();
 	return 0;
 }

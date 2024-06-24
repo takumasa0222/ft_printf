@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/23 00:48:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:36:44 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ size_t	print_var(char *c, va_list l, t_format *fmt, int fd)
 	else if (c[fmt->len] == 'X')
 		return (ft_print_hex_cap(fmt, va_arg(l, uintptr_t), HXDCML_L, fd));
 	else if (c[fmt->len] == '%')
-		return (ft_print_percent(fmt, va_arg(l, int), fd));
+		return (ft_putchar_fd_vp('%', fd));
+//		return (ft_print_percent(fmt, va_arg(l, int), fd));
 	return (ret);
 }

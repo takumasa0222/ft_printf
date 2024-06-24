@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:22:44 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:50:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 
 int	check_all_format(char *c)
 {
-	while (*c)
+	size_t	i;
+	int		valided_len;
+
+	i = 0;
+	while (c[i])
 	{
-		if (*c == '%')
+		if (c[i] == '%')
 		{
-			if (!valid_format_check(c))
+			valided_len = valid_format_check(&c[i]);
+			if (!valided_len)
 				return (INVLD_SYNTX);
+			i = i + valided_len;
 		}
-		c++;
+		i++;
 	}
 	return (1);
 }
