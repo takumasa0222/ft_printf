@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/29 22:21:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft/libft.h"
 
 int	ft_printf(const char *s, ...)
 {
@@ -72,10 +71,10 @@ size_t	print_var(char *c, va_list l, t_format *fmt, int fd)
 	else if (c[fmt->len] == 'u')
 		return (ft_print_u(fmt, va_arg(l, unsigned int), fd));
 	else if (c[fmt->len] == 'x')
-		return (ft_print_hex(fmt, va_arg(l, uintptr_t), HXDCML_S, fd));
+		return (ft_print_hex(fmt, va_arg(l, unsigned int), HXDCML_S, fd));
 	else if (c[fmt->len] == 'X')
-		return (ft_print_hex_cap(fmt, va_arg(l, uintptr_t), HXDCML_L, fd));
+		return (ft_print_hex_cap(fmt, va_arg(l, unsigned int), HXDCML_L, fd));
 	else if (c[fmt->len] == '%')
-		return (ft_putchar_fd_vp('%', 1));
+		return (ft_print_percent(fmt, '%', fd));
 	return (ret);
 }

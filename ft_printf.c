@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:27:56 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 21:03:04 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/29 22:12:21 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ size_t	print_var(char *c, va_list l, t_format *fmt, int fd)
 	else if (c[fmt->len] == 'u')
 		return (ft_print_u(fmt, va_arg(l, unsigned int), fd));
 	else if (c[fmt->len] == 'x')
-		return (ft_print_hex(fmt, va_arg(l, uintptr_t), HXDCML_S, fd));
+		return (ft_print_hex(fmt, va_arg(l, unsigned int), HXDCML_S, fd));
 	else if (c[fmt->len] == 'X')
-		return (ft_print_hex_cap(fmt, va_arg(l, uintptr_t), HXDCML_L, fd));
+		return (ft_print_hex_cap(fmt, va_arg(l, unsigned int), HXDCML_L, fd));
 	else if (c[fmt->len] == '%')
 		return (ft_print_percent(fmt, '%', fd));
 	return (ret);
