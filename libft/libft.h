@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:00:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/16 04:15:30 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/05/17 04:44:22 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <ctype.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdint.h>
 // # include <stdint.h>
 
 typedef struct s_list
