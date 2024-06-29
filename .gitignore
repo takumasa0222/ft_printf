@@ -5,3 +5,5 @@
 *.a
 *.dSYM
 *libft/
+*.DS
+.DS_Store
