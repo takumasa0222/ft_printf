@@ -1,8 +1,8 @@
+ft_bzero.c:Zone.Identifier
 *.Identifier
 *.o
 *.vscode
 *.out
 *.a
+ft_itoa
 *.dSYM
-*.DS
-.DS_Store

@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/05/03 09:14:18 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/03 09:34:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	size_t	ret;
-
-	ret = 0;
-	if (fmt->flg & MN_FLG)
-	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
-	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	if (!lst || !del)
+		return ;
+	del(lst->content);
+	free(lst);
 }

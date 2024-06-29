@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/05/02 21:50:19 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/03 14:02:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	ret;
+	char			*ans;
+	unsigned int	i;
+	size_t			size;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
+	if (!s || !f)
+		return (NULL);
+	size = ft_strlen(s);
+	ans = (char *)malloc((size + 1) * sizeof(char));
+	if (!ans)
+		return (NULL);
+	i = 0;
+	while (i < (unsigned int)size)
 	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
+		ans[i] = f(i, s[i]);
+		i++;
 	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	ans[i] = '\0';
+	return (ans);
 }

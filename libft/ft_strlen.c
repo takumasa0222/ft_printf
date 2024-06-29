@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/04/17 23:03:47 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/12 18:21:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+size_t	ft_strlen(const char *s)
 {
-	size_t	ret;
+	size_t			len;
+	unsigned int	i;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
+	i = 0;
+	len = 0;
+	if (!s)
+		return (i);
+	while (s[i])
 	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
+		len++;
+		i++;
 	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	return (len);
 }

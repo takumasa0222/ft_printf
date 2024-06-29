@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/04/23 19:43:28 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/04/23 20:46:24 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+char	*ft_strdup(const char *s1)
 {
-	size_t	ret;
+	size_t	src_len;
+	char	*ret;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
-	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
-	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	if (!s1)
+		return (NULL);
+	src_len = ft_strlen(s1);
+	ret = malloc((src_len + 1) * sizeof (char));
+	if (!ret)
+		return (NULL);
+	while (*s1)
+		*ret++ = *s1++;
+	*ret = '\0';
+	return (ret - src_len);
 }

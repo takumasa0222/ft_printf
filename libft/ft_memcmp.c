@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/04/22 06:05:48 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/03 13:57:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t	ret;
+	size_t			i;
+	unsigned char	*s1_cpy;
+	unsigned char	*s2_cpy;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
+	if (!s1 && !s2)
+		return (0);
+	s1_cpy = (unsigned char *)s1;
+	s2_cpy = (unsigned char *)s2;
+	i = 0;
+	while (i < n)
 	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
+		if (s1_cpy[i] != s2_cpy[i])
+			return (s1_cpy[i] - s2_cpy[i]);
+		i++;
 	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	return (0);
 }

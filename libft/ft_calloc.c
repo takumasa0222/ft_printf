@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/04/22 23:09:47 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/12 18:23:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+void	*ft_calloc(size_t count, size_t size)
 {
-	size_t	ret;
+	unsigned char	*arry;
+	size_t			i;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
+	i = 0;
+	if ((count && size > SIZE_MAX / count) || (size && count > SIZE_MAX / size))
+		return (NULL);
+	arry = (void *)malloc(size * count);
+	if (!arry)
+		return (NULL);
+	while (i < size * count)
 	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
+		arry[i] = 0;
+		i++;
 	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	return (arry);
 }

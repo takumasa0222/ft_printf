@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/04/19 05:03:16 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/12 18:21:17 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+void	*ft_memset(void *ptr, int value, size_t num)
 {
-	size_t	ret;
+	size_t			i;
+	unsigned char	*orign_ptr;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
+	i = 0;
+	orign_ptr = (unsigned char *)ptr;
+	if (!ptr)
+		return (ptr);
+	while (i < num)
 	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
+		*orign_ptr = (unsigned char)value;
+		i++;
+		orign_ptr++;
 	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
-	return (ret);
+	return (ptr);
 }

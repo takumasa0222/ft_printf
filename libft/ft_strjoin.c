@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent_printer.c                               :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 00:49:34 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/04/23 20:42:50 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/05/07 20:25:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-size_t	ft_print_percent(t_format *fmt, int c, int fd)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	ret;
+	size_t			s1_len;
+	size_t			s2_len;
+	char			*ret;
+	unsigned int	i;
+	unsigned int	j;
 
-	ret = 0;
-	if (fmt->flg & MN_FLG)
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	ret = malloc((s1_len + s2_len + 1) * sizeof(char));
+	if (!ret)
+		return (NULL);
+	i = 0;
+	while (i < s1_len)
 	{
-		ret = ret + ft_putchar_fd_vp(c, fd);
-		ret = ret + ft_print_mnw_c(fmt, fd);
+		ret[i] = s1[i];
+		i++;
 	}
-	else
-	{
-		ret = ret + ft_print_mnw_c(fmt, fd);
-		ret = ret + ft_putchar_fd_vp(c, fd);
-	}
+	j = 0;
+	while (j < s2_len)
+		ret[i++] = s2[j++];
+	ret[i] = '\0';
 	return (ret);
 }
