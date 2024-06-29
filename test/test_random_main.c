@@ -623,7 +623,37 @@ void test_boundary_cases(void) {
 		printf("\033[0m");
 	}
 
+	std_ret = printf("randomtest:\x01\x02\a\v\b\f\r\n");
+	ft_ret = ft_printf("randomtest:\x01\x02\a\v\b\f\r\n");
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
 
+	std_ret = printf("long min: |%x| \n", LONG_MIN);
+	ft_ret = ft_printf("long min: |%x| \n", LONG_MIN);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+	std_ret = printf("ulong_max: |%x|\n", ULONG_MAX);
+	ft_ret = ft_printf("ulong max: |%x|\n", ULONG_MAX);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+	std_ret = printf("long long max: %x \n", 9223372036854775807LL);
+	ft_ret = ft_printf("long long max: %x \n", 9223372036854775807LL);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
 	std_ret = printf("invalid case1: %%%%%\n");
 	ft_ret = ft_printf("invalid case1: %%%%%\n");
 	if (std_ret != ft_ret) {
