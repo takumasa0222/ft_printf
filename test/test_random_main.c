@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../ft_printf.h"
+#include <limits.h>
 
 void test_printf(void) {
 	char c = 'A';
@@ -590,6 +591,39 @@ void test_boundary_cases(void) {
 		printf("\033[0m");
 	}
 
+	std_ret = printf("long max: |%x|\n", LONG_MAX);
+	ft_ret = ft_printf("long max: |%x|\n", LONG_MAX);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+	std_ret = printf("long min: |%x| \n", LONG_MIN);
+	ft_ret = ft_printf("long min: |%x| \n", LONG_MIN);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+	std_ret = printf("ulong_max: |%x|\n", ULONG_MAX);
+	ft_ret = ft_printf("ulong max: |%x|\n", ULONG_MAX);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+	std_ret = printf("long long max: %x \n", 9223372036854775807LL);
+	ft_ret = ft_printf("long long max: %x \n", 9223372036854775807LL);
+	if (std_ret != ft_ret) {
+		printf("\033[1;31m");
+		printf("Return value: printf = %d, ft_printf = %d\n", std_ret, ft_ret);
+		printf("\033[0m");
+	}
+
+
 	std_ret = printf("invalid case1: %%%%%\n");
 	ft_ret = ft_printf("invalid case1: %%%%%\n");
 	if (std_ret != ft_ret) {
@@ -632,7 +666,7 @@ int main() {
 	test_printf();
 	test_boundary_cases();
 	// verify_printf();
-	
+
 //	test_percent();
 	return 0;
 }
