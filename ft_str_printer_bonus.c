@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 19:57:24 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 22:21:29 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/29 23:38:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ size_t	ft_print_str(t_format *fmt, char *str, int fd)
 size_t	ft_print_str_fd(t_format *fmt, char *s, int fd)
 {
 	size_t	i;
+	size_t	str_len;
 
 	i = 0;
 	if (!s)
 		return (ft_putstr_null_fd(fmt, "(null)", fd));
+	str_len = ft_strlen(s);
 	if (fmt->dot)
 	{
-		while (i < (size_t)fmt->precision)
+		while (i < (size_t)fmt->precision && i < str_len)
 			ft_putchar_fd(s[i++], fd);
 	}
 	else
@@ -53,11 +55,13 @@ size_t	ft_print_str_fd(t_format *fmt, char *s, int fd)
 size_t	ft_putstr_null_fd(t_format *fmt, char *nul_str, int fd)
 {
 	size_t	i;
+	size_t	str_len;
 
+	str_len = ft_strlen(nul_str);
 	i = 0;
 	if (fmt->dot)
 	{
-		while (i < (size_t)fmt->precision)
+		while (i < (size_t)fmt->precision && i < str_len)
 			ft_putchar_fd(nul_str[i++], fd);
 	}
 	else
