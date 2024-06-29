@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:26:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 22:59:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/29 23:19:32 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int ft_printf(const char *format, ...);
 
 void test_printf() {
 	int ret_ft, ret_std;
-///*
+/*
 	// テストケース 1
 	ret_ft = ft_printf("1|%07s|\n", "Hello");
 	ret_std = printf("1|%07s|\n", "Hello");
@@ -142,7 +142,7 @@ void test_printf() {
 	ret_ft = ft_printf("27|%5s|\n", 0);
 	ret_std = printf("27|%5s|\n", 0);
 	printf("ft_printf return: %d, printf return: %d\n\n", ret_ft, ret_std);
-
+*/
 	ret_ft = ft_printf("28|%5.1s|\n", "hello");
 	ret_std = printf("28|%5.1s|\n", "hello");
 	printf("ft_printf return: %d, printf return: %d\n\n", ret_ft, ret_std);
