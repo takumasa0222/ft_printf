@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:06:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/18 04:45:10 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:15:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,10 +450,14 @@ void test_X_printf() {
 	ret_ft = ft_printf("50|%#-4.X|\n", 0);
 	ret_std = printf("50|%#-4.X|\n", 0);
 	printf("ft_printf return: %d, printf return: %d\n\n", ret_ft, ret_std);
+
+	ret_ft = ft_printf("51|%0#5x|\n", 5);
+	ret_std = printf("51|%0#5x|\n", 5);
+	printf("ft_printf return: %d, printf return: %d\n\n", ret_ft, ret_std);
 }
 
 int main() {
-	test_x_printf();
+	//test_x_printf();
 	test_X_printf();
 	return 0;
 }
