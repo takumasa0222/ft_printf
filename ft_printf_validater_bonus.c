@@ -6,11 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:22:44 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 22:21:27 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:51:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 int	check_all_format(char *c)
 {

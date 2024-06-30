@@ -6,11 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 19:57:24 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/29 23:38:33 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:51:21 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 size_t	ft_print_str(t_format *fmt, char *str, int fd)
 {

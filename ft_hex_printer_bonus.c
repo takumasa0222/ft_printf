@@ -6,11 +6,11 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:57:28 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/30 15:14:52 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:50:29 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 size_t	ft_print_hex(t_format *fmt, uintptr_t i, char *hex, int fd)
 {
@@ -31,11 +31,6 @@ size_t	ft_print_hex(t_format *fmt, uintptr_t i, char *hex, int fd)
 		if (ret < (size_t)fmt->precision)
 			ret = fmt->precision;
 		ret = ha_mnw_printer(fmt, i, ret, fd);
-		// if (fmt->flg & HASH_FLG && i != 0)
-		// 	ret = ret + 2;
-		// ret = ft_hex_mnw_p(fmt, ret, fd);
-		// if (fmt->flg & HASH_FLG && i != 0)
-		// 	ft_putstr_fd_vp("0x", fd);
 		ft_hex_prec_fd(fmt, i, ft_putnbr_base_cnt(i, hex), fd);
 	}
 	return (ret);
@@ -72,11 +67,7 @@ size_t	ft_print_hex_cap(t_format *fmt, uintptr_t i, char *hex, int fd)
 			ret = ft_putnbr_base_cnt(i, hex);
 		if (ret < (size_t)fmt->precision)
 			ret = fmt->precision;
-		if (fmt->flg & HASH_FLG && i != 0)
-			ret = ret + 2;
-		ret = ft_hex_mnw_p(fmt, ret, fd);
-		if (fmt->flg & HASH_FLG && i != 0)
-			ft_putstr_fd_vp("0X", fd);
+		ret = hl_mnw_printer(fmt, i, ret, fd);
 		ft_hexcap_prec_fd(fmt, i, ft_putnbr_base_cnt(i, hex), fd);
 	}
 	return (ret);
