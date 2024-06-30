@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:41:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/18 02:17:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:23:49 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ size_t	ft_print_mnw_d_i_u(t_format *fmt, size_t i, long val, int fd)
 	else
 	{
 		while (i + len + sign_len(val, fmt) < (size_t)fmt->min_w \
-			&& i < fmt->min_w - fmt->precision - sign_len(val, fmt))
+			&& (int)i < fmt->min_w - fmt->precision - (int)sign_len(val, fmt))
 			i = i + ft_putchar_fd_vp(' ', fd);
 	}
 	return (i);
