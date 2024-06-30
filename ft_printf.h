@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:52:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/06/30 15:33:15 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:56:35 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,4 @@ size_t			ft_hex_mnw_p(t_format *fmt, size_t cnt, int fd);
 
 size_t			ft_print_percent(t_format *fmt, int c, int fd);
 
-size_t			ha_mnw_printer(t_format *fmt, uintptr_t i, size_t cnt, int fd);
-size_t			hl_mnw_printer(t_format *fmt, uintptr_t i, size_t cnt, int fd);
 #endif
